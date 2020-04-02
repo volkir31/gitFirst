@@ -15,7 +15,11 @@ class Ball:
 		self.R =randint(20,50)
 		self.x = randint(self.R, WIDTH - self.R)
 		self.y = randint(self.R, HEIGHT - self.R)
-		self.dx, self.dy = (+10,+10)
+		self.dx, self.dy = (randint(-20,20),randint(-20,20))
+		if self.dx == 0:
+			self.dx = randint(1, 10)
+		if self.dy == 0:
+			self.dy = randint(1, 10)
 		self.ball_id = canvas.create_oval(self.x - self.R, self.y - self.R, self.x + self.R, self.y + self.R , fill = 'green')
 
 	def move(self):
@@ -31,20 +35,21 @@ class Ball:
 
 
 def tick():
-	ball.move()
-	ball.show()
+	for ball in balls:
+		ball.move()
+		ball.show()
 	window.after(50, tick)
 
 
 def main():
-	global window, canvas, ball
+	global window, canvas, balls
 
 	window = Tk()
 	window.geometry(str(WIDTH) + "x" + str(HEIGHT))
 	canvas = Canvas(window, width = WIDTH, height = HEIGHT, bg = 'black')
 	canvas.pack(anchor = "nw", fill = BOTH)
 	canvas.bind('<Button-1>', get_coord)
-	ball = Ball()
+	balls = [Ball() for i in range(5)]
 	tick()
 	window.mainloop()
 
