@@ -7,12 +7,15 @@ HEIGHT = 500
 
 
 def get_coord(event):
+	x = event.x
+	y = event.y
 	print(f'x: {event.x}  y: {event.y}')
+	return x, y
 
 
 class Ball:
 	def __init__(self):
-		self.R =randint(20,50)
+		self.R =randint(10,50)
 		self.x = randint(self.R, WIDTH - self.R)
 		self.y = randint(self.R, HEIGHT - self.R)
 		self.dx, self.dy = (randint(-20,20),randint(-20,20))
@@ -33,6 +36,12 @@ class Ball:
 	def show(self):
 		canvas.move(self.ball_id, self.dx, self.dy)
 
+	def check_inside(self,x,y):
+		if x == self.x + self.R or x == self.x - self.R and y == self.y +self.R or y == self.y - self.R:
+			return True
+		else:
+			return False
+
 
 def tick():
 	for ball in balls:
@@ -49,9 +58,10 @@ def main():
 	canvas = Canvas(window, width = WIDTH, height = HEIGHT, bg = 'black')
 	canvas.pack(anchor = "nw", fill = BOTH)
 	canvas.bind('<Button-1>', get_coord)
-	balls = [Ball() for i in range(5)]
+	balls = [Ball() for i in range(randint(1,20))]
 	tick()
 	window.mainloop()
+
 
 if __name__ == '__main__':
 	main()
